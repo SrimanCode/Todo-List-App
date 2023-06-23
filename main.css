@@ -6,11 +6,14 @@
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add the box-shadow property */
   }
-
+  
 #task-list .task {
     color: red;
 }
+
 :root {
     --grey: #374151;
     --darker: #1F2937;
@@ -25,6 +28,31 @@
     margin: 0;
     font-family: 'Fira sans', sans-serif;
 }
+.description {
+    margin-top: 5px;
+    color: #555;
+    font-size: 14px;
+}
+  .completion-button {
+    display: flex;
+    margin-right: 10px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: gray;
+    color: white;
+    font-weight: bold;
+    transition: transform 0.2s;
+  }
+  
+  .completion-button:hover {
+    background-color: green;
+    transform: scale(1.2);
+  }
+  
+  .completed .completion-button {
+    background-color: green;
+  }
 
 body {
     display: flex;
@@ -56,12 +84,16 @@ input, button {
     outline: none;
     background: none;
 }
+.form {
+    display:flexbox;
+    justify-content: center;
+    background-color: var(--darker);
+    border-radius: 2em;
+    margin-right: 1rem;
+    padding: 1rem;
+}
 #new-task-input {
     flex: 1 1 0%;
-    background-color: var(--darker);
-    padding: 1rem;
-    border-radius: 1rem;
-    margin-right: 1rem;
     color: var(--light);
     font-size: 1.25rem;
 }
@@ -69,6 +101,7 @@ input, button {
     color: var(--grey);
 }
 #new-task-submit {
+    padding: 0px 60px;
     color: var(--pink);
     font-size: 1.25rem;
     font-weight: 700;
@@ -81,6 +114,7 @@ input, button {
 
 #new-task-submit:hover {
     opacity: 0.8;
+    transform: scale(1.1);
 }
 #new-task-submit:active {
     opacity: 0.6;
@@ -101,6 +135,13 @@ main {
     font-weight: 300;
     color: var(--grey);
     margin-bottom: 1rem;
+}
+#name {
+    display: flex;
+    justify-content: center;
+    text-shadow: #1F2937;
+    font-size: 2.5rem;
+    font-weight: 300;
 }
 
 #tasks .task {
