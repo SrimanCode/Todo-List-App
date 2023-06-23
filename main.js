@@ -8,6 +8,9 @@ window.addEventListener('load', () => {
 
   if (localStorage.getItem("tasks")) {
     tasks = JSON.parse(localStorage.getItem("tasks"));
+    tasks.forEach(task => {
+      task.completed = task.completed || false; // Set completed status to false if not previously stored
+    });
     renderTasks();
   }
 
@@ -38,9 +41,6 @@ window.addEventListener('load', () => {
     tasks.forEach(task => {
     const completion_btn = document.createElement("button");
     completion_btn.classList.add("completion-button");
-    const star_icon = document.createElement("span");
-    star_icon.classList.add("material-icons-outlined");
-    completion_btn.appendChild(star_icon);
     completion_btn.addEventListener("click", () => {
       toggleCompletion(task.id);
     });
@@ -76,6 +76,7 @@ window.addEventListener('load', () => {
   function toggleCompletion(taskId) {
     const taskToUpdate = tasks.find(task => task.id === taskId);
     taskToUpdate.completed = !taskToUpdate.completed;
+    saveTasksToLocalStorage()
     renderTasks();
   }
 
