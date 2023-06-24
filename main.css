@@ -9,11 +9,44 @@
     border-radius: 50px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add the box-shadow property */
   }
-  
-#task-list .task {
-    color: red;
-}
 
+  .task_complete {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--darker);
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  #completedSection .task_complete .content_complete { 
+    color: var(--light);
+    font-size: 1.125rem;
+    width: 100%;
+    display: block;
+    transition: 0.4s;
+  }
+  .delete-button_1 {
+    color: crimson;
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .update-button_1 {
+    color: crimson;
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+.delete-button_1:hover,
+.update-button_1:hover {
+    transform: scale(1.01);
+    color: #d36666;
+}
 :root {
     --grey: #374151;
     --darker: #1F2937;
@@ -53,7 +86,21 @@
   .completed .completion-button {
     background-color: green;
   }
-
+  .completion-button-1 {
+    display: flex;
+    margin-right: 10px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    transition: transform 0.2s;
+  }
+  .completion-button-1:hover {
+    background-color: grey;
+    transform: scale(1.2);
+  }
 body {
     display: flex;
     flex-direction: column;
@@ -163,12 +210,27 @@ main {
 .delete-button {
     color: crimson;
     font-size: 20px;
+    transition: background-color 0.3s ease;
 }
 .update-button {
     color: crimson;
     font-size: 20px;
+    transition: background-color 0.3s ease;
 }
-
-
-
-
+.delete-button:hover,
+.update-button:hover {
+    transform: scale(1.01);
+    color: #d36666;
+}
+#message {
+    display: flex;
+    color: var(--darker);
+    justify-content: center;
+    font-family: 'Fira Sans', sans-serif;
+    font-family: 'Lexend Peta', sans-serif;
+    font-family: 'Noto Serif', serif;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto Mono', monospace;
+    font-family: 'Roboto Slab', serif;
+ }
