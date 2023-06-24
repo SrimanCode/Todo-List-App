@@ -8,8 +8,10 @@ if (localStorage.getItem("name") === null) {
   userName = prompt("Please enter your name:", userName);
   localStorage.setItem("name", userName);
 }
-let userElement = document.querySelector(".user");
-userElement.textContent = userName + "'s ";
+if (userName !== null || userName != "") {
+  let userElement = document.querySelector(".user");
+  userElement.textContent = userName + "'s ";
+}
 
 let user = document.getElementsByClassName("user");
 user.textContent = userName;
