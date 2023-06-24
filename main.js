@@ -1,14 +1,23 @@
-let userName = "";
 
+let userName = "";
 if (localStorage.getItem("name") === null) {
   const userName = prompt("Please enter your name:");
   localStorage.setItem("name", userName);
 } else {
   userName = localStorage.getItem("name");
-  userName = prompt("Please enter your name:", userName);
-  localStorage.setItem("name", userName);
 }
-if (userName !== null || userName != "") {
+
+//this code changes the Name in the todo list application if the user presses "Change Name"
+document.getElementById("change_name").addEventListener("click", () => {
+  userName = prompt("Please enter your name:");
+  localStorage.setItem("name", userName);
+  if (userName !== null) {
+    let userElement = document.querySelector(".user");
+    userElement.textContent = userName + "'s ";
+  }
+});
+
+if (userName !== null || userName != "null") {
   let userElement = document.querySelector(".user");
   userElement.textContent = userName + "'s ";
 }
