@@ -18,7 +18,8 @@ window.addEventListener('load', () => {
     renderTasks();
   }
   if (localStorage.getItem("completed")) {
-    completed = JSON.parse(localStorage.getItem("complted"))
+    completed = JSON.parse(localStorage.getItem("completed"));
+    render_completed_task();
   }
 
   form.addEventListener('submit', (e) => {
@@ -160,8 +161,8 @@ window.addEventListener('load', () => {
 
   function saveTasksToLocalStorage() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
+    localStorage.setItem("completed", JSON.stringify(completed));
   }
-
   function deleteTask(taskId) {
     tasks = tasks.filter(task => task.id !== taskId);
     saveTasksToLocalStorage();
@@ -181,12 +182,14 @@ window.addEventListener('load', () => {
     const taskIndex = completed.findIndex(t => t.id === task.id);
     if (taskIndex !== -1) {
       completed.splice(taskIndex, 1);
+      saveTasksToLocalStorage();
       render_completed_task();
     }
   }
   function update_complete_Task(task) {
     const newTask = prompt("Enter the updated task:", task.content);
     task.content = newTask;
+    saveTasksToLocalStorage();
     render_completed_task();
   } 
 });
