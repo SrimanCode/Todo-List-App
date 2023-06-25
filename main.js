@@ -1,8 +1,10 @@
 
 let userName = "";
-if (localStorage.getItem("name") === null) {
+if (localStorage.getItem("name") === null || localStorage.getItem("name") === "null") {
   const userName = prompt("Please enter your name:");
   localStorage.setItem("name", userName);
+  let userElement = document.querySelector(".user");
+  userElement.textContent = userName + "'s ";
 } else {
   userName = localStorage.getItem("name");
 }
@@ -24,8 +26,6 @@ if (userName !== null || userName != "null") {
 
 let user = document.getElementsByClassName("user");
 user.textContent = userName;
-var removeSVG = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve"><rect class="noFill" width="22" height="22"/><g><g><path class="fill" d="M16.1,3.6h-1.9V3.3c0-1.3-1-2.3-2.3-2.3h-1.7C8.9,1,7.8,2,7.8,3.3v0.2H5.9c-1.3,0-2.3,1-2.3,2.3v1.3c0,0.5,0.4,0.9,0.9,1v10.5c0,1.3,1,2.3,2.3,2.3h8.5c1.3,0,2.3-1,2.3-2.3V8.2c0.5-0.1,0.9-0.5,0.9-1V5.9C18.4,4.6,17.4,3.6,16.1,3.6z M9.1,3.3c0-0.6,0.5-1.1,1.1-1.1h1.7c0.6,0,1.1,0.5,1.1,1.1v0.2H9.1V3.3z M16.3,18.7c0,0.6-0.5,1.1-1.1,1.1H6.7c-0.6,0-1.1-0.5-1.1-1.1V8.2h10.6V18.7z M17.2,7H4.8V5.9c0-0.6,0.5-1.1,1.1-1.1h10.2c0.6,0,1.1,0.5,1.1,1.1V7z"/></g><g><g><path class="fill" d="M11,18c-0.4,0-0.6-0.3-0.6-0.6v-6.8c0-0.4,0.3-0.6,0.6-0.6s0.6,0.3,0.6,0.6v6.8C11.6,17.7,11.4,18,11,18z"/></g><g><path class="fill" d="M8,18c-0.4,0-0.6-0.3-0.6-0.6v-6.8c0-0.4,0.3-0.6,0.6-0.6c0.4,0,0.6,0.3,0.6,0.6v6.8C8.7,17.7,8.4,18,8,18z"/></g><g><path class="fill" d="M14,18c-0.4,0-0.6-0.3-0.6-0.6v-6.8c0-0.4,0.3-0.6,0.6-0.6c0.4,0,0.6,0.3,0.6,0.6v6.8C14.6,17.7,14.3,18,14,18z"/></g></g></g></svg>';
-var completeSVG = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 22 22" style="enable-background:new 0 0 22 22;" xml:space="preserve"><rect y="0" class="noFill" width="22" height="22"/><g><path class="fill" d="M9.7,14.4L9.7,14.4c-0.2,0-0.4-0.1-0.5-0.2l-2.7-2.7c-0.3-0.3-0.3-0.8,0-1.1s0.8-0.3,1.1,0l2.1,2.1l4.8-4.8c0.3-0.3,0.8-0.3,1.1,0s0.3,0.8,0,1.1l-5.3,5.3C10.1,14.3,9.9,14.4,9.7,14.4z"/></g></svg>';
 
 window.addEventListener('load', () => {
   const form = document.querySelector("#new-task-form");
@@ -58,6 +58,7 @@ window.addEventListener('load', () => {
       id: Date.now(),
       content: task,
       completed: false,
+      date: "Select a date",
     };
 
     tasks.push(newTask);
@@ -82,7 +83,7 @@ window.addEventListener('load', () => {
       heading.textContent = "Yay! Good Job. You completed all you task."
       list_el.appendChild(heading);
     }
-    // Render each task
+
     tasks.forEach(task => {
     const completion_btn = document.createElement("button");
     completion_btn.classList.add("completion-button");
@@ -90,11 +91,33 @@ window.addEventListener('load', () => {
       render_completed_tasks(task);
       toggleCompletion(task.id);
     });
+
+    //for selecting time and due dates
+      const date_btn = document.createElement('input');
+      date_btn.id = "date-time";
+      date_btn.type = 'text';
+      date_btn.value = task.date || "";
+      date_btn.classList.add('flatpickr-input');
+      date_btn.addEventListener("mousedown", () => {
+        flatpickr(date_btn, {
+          dateFormat: 'Y-m-d',
+          onClose: function (selectedDates) {
+            const selectedDate = selectedDates[0];
+            const formattedDate = selectedDate ? selectedDate.toISOString().split('T')[0] : '';
+            task.date = formattedDate;
+            saveTasksToLocalStorage();
+          }
+        });
+
+      });
+      
+      //content
       const task_el = document.createElement("div");
       task_el.classList.add("task");
       const task_content_el = document.createElement("div");
       task_content_el.classList.add("content");
       task_content_el.textContent = task.content;
+    
 
       if (task.completed) {
         task_el.classList.add("completed");
@@ -113,9 +136,12 @@ window.addEventListener('load', () => {
       });
       task_el.appendChild(completion_btn);
       task_el.appendChild(task_content_el);
+      task_el.appendChild(date_btn);
       task_el.appendChild(delete_btn);
       task_el.appendChild(update_btn);
       list_el.appendChild(task_el);
+
+      
     });
   }
   function render_completed_tasks(task) {
@@ -134,6 +160,7 @@ window.addEventListener('load', () => {
       completedSection.appendChild(completedHeading);
     }
     completed.forEach(task => {
+      
       const completion_btn = document.createElement("button");
       completion_btn.classList.add("completion-button-1");
       completion_btn.addEventListener("click", () => {
@@ -144,6 +171,13 @@ window.addEventListener('load', () => {
         renderTasks();
         render_completed_task();
       });
+
+      const date_btn = document.createElement('input');
+      date_btn.id = "date-time1";
+      date_btn.type = 'text';
+      date_btn.value = task.date;
+      
+    
       const task_el = document.createElement("div");
       task_el.classList.add("task_complete");
       const task_content_el = document.createElement("div");
@@ -164,6 +198,9 @@ window.addEventListener('load', () => {
       });
       task_el.appendChild(completion_btn);
       task_el.appendChild(task_content_el);
+      if (task.date != "Select a date") {
+        task_el.appendChild(date_btn);
+      }
       task_el.appendChild(delete_btn);
       task_el.appendChild(update_btn);
       completedSection.appendChild(task_el)
